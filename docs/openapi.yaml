@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: S05P12A109
-  description: 밑에 API부분만 봐주세요 읽으실때 복수형 구분에 유의하세요! 실수했을 수도 있으니 어? 얜 array인데 왜 복수형이 붙어있지나 vice versa 알려주세요 / 각 회원의 정보는 jwt를 통해 취득합니다 / response의 코드 등도 제대로 되어있지 않으니, 클라이언트측 parameter와 requestbody(JSON), 그리고 서버측 response JSON 위주로 확인바랍니다 / 200이 아닌 response는 굳이 필요한가요? / operationId는 CRUD를 따서 create, get, update, delete와 parameter를 사용하는 경우 By{parameter}를 뒤에 붙였습니다. (예외 checkGroupName) / 0729 논의해본 결과 schedule에 일, 주, 월, 년?을 넣어서 쉽게 접근할 수 있도록 바꿨습니다. 혹시 날짜와 관련된 내용인데 schedule을 참조(ref)하고 있지 않으면 제보바랍니다 / required 가 문제를 일으키는 것 같아 path parameter를 제외하고 required는 전부 주석처리했습니다 / schedule에 expectstart_at 시작예정시각 속성을 추가했습니다
+  description: 밑에 API부분만 봐주세요 // 읽으실때 복수형 구분에 유의하세요! 실수했을 수도 있으니 어? 얜 array인데 왜 복수형이 붙어있지나 vice versa 알려주세요 / 각 회원의 정보는 jwt를 통해 취득합니다 / response의 코드 등도 제대로 되어있지 않으니, 클라이언트측 parameter와 requestbody(JSON), 그리고 서버측 response JSON 위주로 확인바랍니다 / 200이 아닌 response는 굳이 필요한가요? / operationId는 CRUD를 따서 create, get, update, delete와 parameter를 사용하는 경우 By{parameter}를 뒤에 붙였습니다. (예외 checkGroupName) / 0729 논의해본 결과 schedule에 일, 주, 월, 년?을 넣어서 쉽게 접근할 수 있도록 바꿨습니다. 혹시 날짜와 관련된 내용인데 schedule을 참조(ref)하고 있지 않으면 제보바랍니다 / required 가 문제를 일으키는 것 같아 path parameter를 제외하고 required는 전부 주석처리했습니다 / schedule에 expectstart_at 시작예정시각 속성을 추가했습니다 / ReqeustBody, Response는 모두 application/json으로 통일합니다.
 #   termsOfService: http://swagger.io/terms/
 #   contact:
 #     email: apiteam@swagger.io
@@ -13,8 +13,8 @@ info:
 #   description: Find out more about Swagger
 #   url: http://swagger.io
 servers:
-- url: https://schedulestore.swagger.io/basePath
-- url: http://schedulestore.swagger.io/basePath
+- url: https://i5a109.p.ssafy.io:3308
+- url: http://i5a109.p.ssafy.io:3308
 tags:
 - name: schedule
   description: Everything about your schedules
@@ -25,8 +25,8 @@ tags:
 #   description: Access to Schedules
 - name: user
   description: Operations about user
-- name: daily
-  description: 하루 평가(용어 정리 필요)를 위한 내용입니다 / average로 바꿀까요?
+- name: average
+  description: 통계를 위한 내용입니다
 - name: group
   description: 그룹에 관한 내용입니다
   # externalDocs:
@@ -42,11 +42,9 @@ paths:
       - schedule
       summary: Add a new schedule to user
       description: |-
-        Form으로 받을지 JSON으로 받을지 결정 필요. => JSON으로 통일
-        schedule_id, user_id, finished_at, created_at, updated_at, point, is_finished, noti_extend는 불필요.
+        schedule_id, user_id, finished_at, created_at, updated_at, point, is_finished, noti_extend는 불필요 //
         date, title, context, started_at, deadline_at, notification만 받으면 되는 것 같은데?
         schedule에 date, week, month 정보를 넣어놓으면 한 번에 조회 가능해서 간편해질 듯 하다.
-      # aksdjfajksd:askdjfkhakf
       operationId: createSchedule
       requestBody:
         # required: true
@@ -197,7 +195,7 @@ paths:
       security:
       - JWT: []
       
-  /schedule/{month}:
+  /schedule/month/{month}:
     get:
       tags:
       - schedule
@@ -219,6 +217,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/schedule'
+      security:
+      - JWT: []
 
   /user:
   
@@ -506,11 +506,11 @@ paths:
       security:
       - JWT: []
       
-  /daily/{date}:
+  /average/daily/{date}:
   
     get:
       tags:
-      - daily
+      - average
       summary: Get daily information
       description: |-
         This can only be done by the logged in user
@@ -561,7 +561,7 @@ paths:
 
     post:
       tags:
-      - daily
+      - average
       summary: Comment on daily
       description: |-
         This can only be done by the logged in user
@@ -597,7 +597,7 @@ paths:
           
     delete:
       tags:
-      - daily
+      - average
       summary: Delete Comment on daily
       description: |-
         This can only be done by the logged in user
@@ -621,10 +621,10 @@ paths:
       security:
       - JWT: []
           
-  /weekly/{week}:
+  /average/weekly/{week}:
     get:
       tags:
-      - weekly
+      - average
       summary: Get weekly information
       description: |-
         This can only be done by the logged in user
@@ -666,10 +666,10 @@ paths:
       security:
       - JWT: []
           
-  /monthly/{month}:
+  /average/monthly/{month}:
     get:
       tags:
-      - monthly
+      - average
       summary: Get monthly information
       description: |-
         This can only be done by the logged in user
@@ -693,7 +693,7 @@ paths:
                 - $ref: '#/components/schemas/monthly'
                 - type: object
                   properties:
-                    dailies:
+                    weeklies:
                       type: array
                       items:
                         # $ref: '#/components/schemas/weekly'
@@ -709,10 +709,10 @@ paths:
       security:
       - JWT: []
           
-  /yearly/{year}:
+  /average/yearly/{year}:
     get:
       tags:
-      - yearly
+      - average
       summary: Get yearly information
       description: |-
         This can only be done by the logged in user
@@ -939,150 +939,6 @@ paths:
 components:
 
   schemas:
-  
-    user:
-      # required:
-      # - user_id
-      type: object
-      description: 회원의 트로피와 그룹 가입 정보를 모델에 넣을 경우 group>user>mygroup>group 재귀의 시작이라 제거했으며 get 요청으로 가져오는 경우에 포함되도록 설계했습니다
-      properties:
-        user_id:
-          type: string
-          format: varchar(20)
-          example: honggildong1!
-        name:
-          type: string
-          example: 홍길동1!
-        email:
-          type: string
-          example: hong1@korea.kr
-        cellphone:
-          type: string
-          example: 010-1234-5678
-        password:
-          type: string
-          example: "abcd1234!@#$"
-        exp:
-          type: integer
-        created_at:
-          type: string
-          format: date-time
-        is_admin:
-          type: boolean
-          description: |-
-            true: admin,
-            false: not admin,
-            이때의 admin은 사이트 전체를 의미함, groupadmin과 다름
-          default: false
-        # 아래 array도 user에 필수적인 것 같지는 않은데,,, group>user>mygroup>group 재귀의 시작이라 제거
-        # mytrophies:
-        #   description: 회원이 소유한 트로피만 반환한다
-        #   type: array
-        #   items:
-        #     $ref: '#/components/schemas/mytrophy'
-        # mygroups:
-        #   description: 회원이 속한 그룹만 반환한다
-        #   type: array
-        #   items:
-        #     $ref: '#/components/schemas/group'
-          
-    daily:
-      description: 하루 정리?하는 화면. JSON크기를 줄일 방법을 찾자.  / environment.created_at은 어느시점을 넣어놓을까
-      # required:
-      # - date
-      type: object
-      properties:
-        date:
-          $ref: '#/components/schemas/schedule/properties/date'
-          # type: string
-          # format: date
-        user_id:
-          $ref: '#/components/schemas/user/properties/user_id'
-        context:
-          type: string
-          format: text
-          example: 오늘은 너무 피곤했ㄷr....
-        avgpoint:
-          type: integer
-          description: 해당 날짜의 schedule이 update(post/put)될때마다 계산해준다
-        avgenvironment:
-          $ref: '#/components/schemas/environment'
-        # 모델이 schedule을 포함하는 것이 아니라 response에서 섞어서 보내주는걸로
-        # schedules:
-        #   type: array
-        #   items:
-        #     $ref: '#/components/schemas/schedule'
-        
-          
-    weekly:
-      description: 주간 내용을 보여주는데 주를 판별하는 방법은??? moment weekofyear를 사용할 수 있을 것 같다. / environment.created_at은 어느시점을 넣어놓을까
-      # required:
-      # - week
-      type: object
-      properties:
-        week:
-          $ref: '#/components/schemas/schedule/properties/week'
-          # type: string
-          # format: date
-          # description: week를 date로 할지, 그냥 string형으로 할지, 기간을 잡을지...
-        user_id:
-          $ref: '#/components/schemas/user/properties/user_id'
-        avgpoint:
-          type: integer
-          description: 해당 주의 schedule이 update(post/put)될때마다 계산해준다
-        avgenvironment:
-          $ref: '#/components/schemas/environment'
-        # 모델이 daily를 포함하는 것이 아니라 response에서 섞어서 보내주는걸로
-        # dailies:
-        #   type: array
-        #   items:
-        #     $ref: '#/components/schemas/daily'
-        
-          
-    monthly:
-      description: 월간 내용을 보여주는데 다행히 월은 기준이 있다 / environment.created_at은 어느시점을 넣어놓을까
-      # required:
-      # - month
-      type: object
-      properties:
-        month:
-          type: string
-          format: date
-        user_id:
-          $ref: '#/components/schemas/user/properties/user_id'
-        avgpoint:
-          type: integer
-          description: 해당 월의 schedule이 update(post/put)될때마다 계산해준다
-        avgenvironment:
-          $ref: '#/components/schemas/environment'
-        # 모델이 weekly를 포함하는 것이 아니라 response에서 섞어서 보내주는걸로
-        # weeklies:
-        #   type: array
-        #   items:
-        #     $ref: '#/components/schemas/weekly'
-      
-    yearly:
-      description: 연간 내용을 보여준다 / environment.created_at은 어느시점을 넣어놓을까
-      # required:
-      # - year
-      type: object
-      properties:
-        year:
-          type: string
-          format: year
-        user_id:
-          $ref: '#/components/schemas/user/properties/user_id'
-        avgpoint:
-          type: integer
-          description: 해당 년의 schedule이 update(post/put)될때마다 계산해준다
-        avgenvironment:
-          $ref: '#/components/schemas/environment'
-        # 모델이 monthly를 포함하는 것이 아니라 response에서 섞어서 보내주는걸로
-        # monthlies:
-        #   type: array
-        #   items:
-        #     $ref: '#/components/schemas/monthly'
-        
         
     schedule:
       # required:
@@ -1158,6 +1014,164 @@ components:
         noti_extend:
           type: integer
           description: 알림을 연장한 횟수
+  
+    user:
+      # required:
+      # - user_id
+      type: object
+      description: 회원의 트로피와 그룹 가입 정보를 모델에 넣을 경우 group>user>mygroup>group 재귀의 시작이라 제거했으며 get 요청으로 가져오는 경우에 포함되도록 설계했습니다
+      properties:
+        user_id:
+          type: string
+          format: varchar(20)
+          example: honggildong1!
+        name:
+          type: string
+          example: 홍길동1!
+        email:
+          type: string
+          example: hong1@korea.kr
+        cellphone:
+          type: string
+          example: 010-1234-5678
+        password:
+          type: string
+          example: "abcd1234!@#$"
+        exp:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        is_admin:
+          type: boolean
+          description: |-
+            true: admin,
+            false: not admin,
+            이때의 admin은 사이트 전체를 의미함, groupadmin과 다름
+          default: false
+        # 아래 array도 user에 필수적인 것 같지는 않은데,,, group>user>mygroup>group 재귀의 시작이라 제거
+        # mytrophies:
+        #   description: 회원이 소유한 트로피만 반환한다
+        #   type: array
+        #   items:
+        #     $ref: '#/components/schemas/mytrophy'
+        # mygroups:
+        #   description: 회원이 속한 그룹만 반환한다
+        #   type: array
+        #   items:
+        #     $ref: '#/components/schemas/group'
+          
+    daily:
+      description: 하루 정리?하는 화면. JSON크기를 줄일 방법을 찾자.  / environment.created_at은 어느시점을 넣어놓을까
+      # required:
+      # - date
+      type: object
+      properties:
+        date:
+          $ref: '#/components/schemas/schedule/properties/date'
+          # type: string
+          # format: date
+        week:
+          $ref: '#/components/schemas/schedule/properties/week'
+        month:
+          $ref: '#/components/schemas/schedule/properties/month'
+        year:
+          $ref: '#/components/schemas/schedule/properties/year'
+        user_id:
+          $ref: '#/components/schemas/user/properties/user_id'
+        context:
+          type: string
+          format: text
+          example: 오늘은 너무 피곤했ㄷr....
+        avgpoint:
+          type: integer
+          description: 해당 날짜의 schedule이 update(post/put)될때마다 계산해준다
+        cntschedule:
+          type: integer
+          description: 해당 날짜의 schedule의 갯수입니다. 마찬가지로 update마다 계산필요.
+        avgenvironment:
+          $ref: '#/components/schemas/environment'
+        # 모델이 schedule을 포함하는 것이 아니라 response에서 섞어서 보내주는걸로
+        # schedules:
+        #   type: array
+        #   items:
+        #     $ref: '#/components/schemas/schedule'
+        
+          
+    weekly:
+      description: 주간 내용을 보여주는데 주를 판별하는 방법은??? moment weekofyear를 사용할 수 있을 것 같다. / environment.created_at은 어느시점을 넣어놓을까
+      # required:
+      # - week
+      type: object
+      properties:
+        week:
+          $ref: '#/components/schemas/schedule/properties/week'
+          # type: string
+          # format: date
+          # description: week를 date로 할지, 그냥 string형으로 할지, 기간을 잡을지...
+        month:
+          $ref: '#/components/schemas/schedule/properties/month'
+        year:
+          $ref: '#/components/schemas/schedule/properties/year'
+        user_id:
+          $ref: '#/components/schemas/user/properties/user_id'
+        avgpoint:
+          type: integer
+          description: 해당 주의 schedule이 update(post/put)될때마다 계산해준다
+        avgenvironment:
+          $ref: '#/components/schemas/environment'
+        # 모델이 daily를 포함하는 것이 아니라 response에서 섞어서 보내주는걸로
+        # dailies:
+        #   type: array
+        #   items:
+        #     $ref: '#/components/schemas/daily'
+        
+          
+    monthly:
+      description: 월간 내용을 보여주는데 다행히 월은 기준이 있다 / environment.created_at은 어느시점을 넣어놓을까
+      # required:
+      # - month
+      type: object
+      properties:
+        month:
+          $ref: '#/components/schemas/schedule/properties/month'
+        year:
+          $ref: '#/components/schemas/schedule/properties/year'        
+        user_id:
+          $ref: '#/components/schemas/user/properties/user_id'
+        avgpoint:
+          type: integer
+          description: 해당 월의 schedule이 update(post/put)될때마다 계산해준다
+        avgenvironment:
+          $ref: '#/components/schemas/environment'
+        # 모델이 weekly를 포함하는 것이 아니라 response에서 섞어서 보내주는걸로
+        # weeklies:
+        #   type: array
+        #   items:
+        #     $ref: '#/components/schemas/weekly'
+      
+    yearly:
+      description: 연간 내용을 보여준다 / environment.created_at은 어느시점을 넣어놓을까
+      # required:
+      # - year
+      type: object
+      properties:
+        year:
+          type: string
+          format: year
+        user_id:
+          $ref: '#/components/schemas/user/properties/user_id'
+        avgpoint:
+          type: integer
+          description: 해당 년의 schedule이 update(post/put)될때마다 계산해준다
+        avgenvironment:
+          $ref: '#/components/schemas/environment'
+        # 모델이 monthly를 포함하는 것이 아니라 response에서 섞어서 보내주는걸로
+        # monthlies:
+        #   type: array
+        #   items:
+        #     $ref: '#/components/schemas/monthly'
+        
 
     group:
       type: object

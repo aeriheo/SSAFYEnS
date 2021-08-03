@@ -161,6 +161,23 @@ paths:
                   type: integer
                   description: Updated noti_extend of the schedule
                   format: int32
+                humidity:
+                  $ref: '#/components/schemas/schedule/properties/humidity'
+                  # type: integer
+                  # description: 습도
+                illuminance:
+                  $ref: '#/components/schemas/schedule/properties/illuminance'
+                  # type: integer
+                  # description: 조도
+                noise:
+                  $ref: '#/components/schemas/schedule/properties/noise'
+                  # type: integer
+                  # description: 소음
+                temperature:
+                  $ref: '#/components/schemas/schedule/properties/temperature'
+                  # type: integer
+                  # description: 온도 
+                
       responses:
         200:
           $ref: '#/components/responses/200schedule'
@@ -195,16 +212,16 @@ paths:
       security:
       - JWT: []
       
-  /schedule/month/{month}:
+  /schedule/month/{date}:
     get:
       tags:
       - schedule
       summary: Get all schedules of user of specific month
       operationId: getScheduleByMonth
       parameters:
-      - name: month
+      - name: date
         in: path
-        description: month
+        description: date 형식으로 받지만 년도, 월만 반영합니다
         required: true
         schema:
           type: string
@@ -290,8 +307,10 @@ paths:
             application/json:
               schema:
                 properties:
-                  user_id:
-                    $ref: '#/components/schemas/user/properties/user_id'
+                  jwt:
+                    type: string
+                  # user_id:
+                  #   $ref: '#/components/schemas/user/properties/user_id'
                 
       
     
@@ -514,9 +533,9 @@ paths:
       summary: Get daily information
       description: |-
         This can only be done by the logged in user
-        본인의 일간만 가져옴
-        기존 daily 모델 + 해당되는 모든 schedule도 포함하여 제공함
-        '정말 필요한 정보만 집어넣자는 결론에 따라, 와이어프레임에서 요구하는 정보로 제한함. 그래프 Y축은 일정의 시간으로 합의했으므로, finished_at - started_at 로 구할 수 있음. 그리고 그 값을 0~100의 값으로 변환도 가능해보임. 만약 필요하다면 백엔드에서 계산해서 줄 수도 있으므로 리뷰시 정해주세요.'
+        본인의 일간만 가져옴//
+        기존 daily 모델 + 해당되는 모든 schedule도 포함하여 제공함//
+        정말 필요한 정보만 집어넣자는 결론에 따라, 와이어프레임에서 요구하는 정보로 제한함. 그래프 Y축은 일정의 시간으로 합의했으므로, finished_at - started_at 로 구할 수 있음. 그리고 그 값을 0~100의 값으로 변환도 가능해보임. 만약 필요하다면 백엔드에서 계산해서 줄 수도 있으므로 리뷰시 정해주세요.
       operationId: getDailyByDate
       parameters:
       - in: path
@@ -621,7 +640,7 @@ paths:
       security:
       - JWT: []
           
-  /average/weekly/{week}:
+  /average/weekly/{year}/{week}:
     get:
       tags:
       - average
@@ -632,6 +651,12 @@ paths:
         Y축이 각 일간 스케쥴의 개수인거죠?(시간의 합이 아니라...)
       operationId: getWeeklyByWeek
       parameters:
+      - in: path
+        name: year
+        required: true
+        description: 주 단위의 값은 연도없이 조회가 불가하여 연도를 추가함
+        schema:
+          $ref: "#/components/schemas/schedule/properties/year"
       - in: path
         name: week
         required: true
@@ -666,7 +691,7 @@ paths:
       security:
       - JWT: []
           
-  /average/monthly/{month}:
+  /average/monthly/{date}:
     get:
       tags:
       - average
@@ -677,8 +702,9 @@ paths:
       operationId: getMonthlyByMonth
       parameters:
       - in: path
-        name: month
+        name: date
         required: true
+        description: date 형식으로 받지만 년도, 월만 반영합니다
         schema:
           $ref: "#/components/schemas/monthly/properties/month"
       responses:
@@ -958,17 +984,14 @@ components:
           type: string
           format: week
           description: moment().isoweek()로 1년의 몇번째 주(weekofyear)인지 구할 수 있습니다
-          # $ref: '#/components/schemas/daily/properties/date'
         month:
           type: string
           format: month
           description: moment().메서드로 1년의 몇번째 월인지 구할 수 있습니다
-          # $ref: '#/components/schemas/daily/properties/date'
         year:
           type: string
           format: year
           description: 솔직히 연단위까지 필요한가 싶지만... 일단 넣어봅시다
-          # $ref: '#/components/schemas/daily/properties/date'
         title:
           type: string
           format: varchar
@@ -1014,6 +1037,20 @@ components:
         noti_extend:
           type: integer
           description: 알림을 연장한 횟수
+        # 0803 회의 결과 nosql도입이전까지 평균 환경변수는 최소단위가 일정으로 1:1 관계로 두기보다 어트리뷰트로 합치기로 하였음
+        humidity:
+          type: integer
+          description: 습도
+        illuminance:
+          type: integer
+          description: 조도
+        noise:
+          type: integer
+          description: 소음
+        temperature:
+          type: integer
+          description: 온도          
+        
   
     user:
       # required:

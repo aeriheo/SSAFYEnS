@@ -15,6 +15,7 @@ info:
 servers:
 - url: https://i5a109.p.ssafy.io:3308
 - url: http://i5a109.p.ssafy.io:3308
+- url: http://localhost:8079
 tags:
 - name: schedule
   description: Everything about your schedules
@@ -302,15 +303,13 @@ paths:
       #             $ref: '#/components/schemas/user/properties/email'
       responses:
         200:
-          description: OK
+          description: OK // 결과가 없으면 비어있는 JSON이 오게 됨
           content:
             application/json:
               schema:
                 properties:
-                  jwt:
-                    type: string
-                  # user_id:
-                  #   $ref: '#/components/schemas/user/properties/user_id'
+                  user_id:
+                    $ref: '#/components/schemas/user/properties/user_id'
                 
       
     
@@ -358,6 +357,8 @@ paths:
           application/json:
             schema:
               properties:
+                user_id:
+                  $ref: '#/components/schemas/user/properties/user_id'
                 password:
                   $ref: '#/components/schemas/user/properties/password'
       responses:
@@ -398,7 +399,12 @@ paths:
       responses:
         200:
           description: successful operation
-          content: {}
+          content:
+            application/json:
+              schema:
+                properties:
+                  jwt:
+                    type: string
         400:
           description: Invalid username/password supplied
           content: {}
@@ -472,6 +478,7 @@ paths:
       description: |-
         This can only be done by the logged in user.
          현재 방식은 프론트엔드가 GET으로 갖고 온 정보에 변경될 내용만 override해서 json 형태로 보내주는 것임
+         확인 필요한건, user의 모든 내용을 바꿀 수 있게 할 것인가...?
       operationId: updateUserById
       parameters:
       - name: user_id

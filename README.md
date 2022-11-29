@@ -147,6 +147,6 @@ npm run electron // Other Terminal
 
 # Contributor
 
-| **김지환** <a href="https://github.com/Bure5kzam"><img src="https://i.imgur.com/SBDd7pE.png" width="20"></a> <br> Jihwan Kim | **신은지** <a href="https://github.com/devejs"><img src="https://i.imgur.com/SBDd7pE.png" width="20"></a> <br> Eunjee Shin | **이태용** <img src="https://i.imgur.com/SBDd7pE.png" width="20"></a> <br> TaeYong Lee | **장범진** <a href="https://github.com/wony5248"><img src="https://i.imgur.com/SBDd7pE.png" width="20"></a> <br> Beomjin Jang| **허애리** <a href="https://github.com/aeriheo"><img src="https://i.imgur.com/SBDd7pE.png" width="20"></a> <br> Aeri Heo|
+| **김지환** <a href="https://github.com/Bure5kzam"><img src="https://i.imgur.com/SBDd7pE.png" width="20"></a> <br> Jihwan Kim | **신은지** <a href="https://github.com/devejs"><img src="https://i.imgur.com/SBDd7pE.png" width="20"></a> <br> Eunjee Shin | **이태용** <img src="https://i.imgur.com/SBDd7pE.png" width="20"></a> <br> Taeyong Lee | **장범진** <a href="https://github.com/wony5248"><img src="https://i.imgur.com/SBDd7pE.png" width="20"></a> <br> Beomjin Jang| **허애리** <a href="https://github.com/aeriheo"><img src="https://i.imgur.com/SBDd7pE.png" width="20"></a> <br> Aeri Heo|
 | :--------: | :--------: | :--------: | :--------: |:--------: |
 |Backend<br>Server|Embedded<br>|Backend<br>|Frontend<br> Scenario|Web Frontend<br> Scenario|

@@ -57,8 +57,7 @@
 
 |Sign Up            |  Sign In | 
 |:-------------------------:|:-------------------------: | 
-|![](https://i.imgur.com/Qlv79ZD.png) |  ![](https://i.imgur.com/bVJw9Yt.png)
-|
+|![](https://i.imgur.com/Qlv79ZD.png) |  ![](https://i.imgur.com/bVJw9Yt.png)|
 
 
 ## Monthly Schedule
@@ -77,8 +76,7 @@
 전체 그룹 확인 및 내가 가입한 그룹 확인  
 |GROUP LIST         |  MY GROUP | 
 |:-------------------------:|:-------------------------: | 
-|![](https://i.imgur.com/vtWBR2Z.png)  | ![](https://i.imgur.com/JUiPTmX.png)
-| 
+|![](https://i.imgur.com/vtWBR2Z.png)  | ![](https://i.imgur.com/JUiPTmX.png)| 
 
 ## Group Information
 그룹 소개 및 그룹의 챌린지  
@@ -88,8 +86,8 @@
 그룹 관리 및 그룹 신청 승인  
 |GROUP MANAGEMENT      | NEW MEMBER | 
 |:-------------------------:|:-------------------------: |
-|![](https://i.imgur.com/jF1LADJ.png)|![](https://i.imgur.com/sw4dhLj.png)
-|
+|![](https://i.imgur.com/jF1LADJ.png)|![](https://i.imgur.com/sw4dhLj.png)|
+
 ## My Page
 정보 수정 및 일정 평가 통계  
 |MY PAGE      | SCHEDULE STATISTICS | 
